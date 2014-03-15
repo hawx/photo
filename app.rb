@@ -1,3 +1,4 @@
+require 'exiftool'
 require 'fileutils'
 require 'json'
 require 'sinatra'
@@ -5,6 +6,12 @@ require 'slim'
 
 require_relative 'lib/markdown'
 require_relative 'lib/data'
+
+helpers do
+  def accept!(type)
+    pass unless request.accept.empty? || request.preferred_type.include?(type)
+  end
+end
 
 get '/' do
   slim :photos, locals: {photos: Photo.all}
@@ -20,12 +27,8 @@ post '/upload' do
 end
 
 get '/photos/:id' do |id|
-  begin
-    pass unless request.accept? 'text/html'
-    slim :photo, locals: {photo: Photo.get(id.to_i)}
-  rescue
-    pass
-  end
+  accept! 'text/html'
+  slim :photo, locals: {photo: Photo.get(id.to_i)}
 end
 
 get '/photos/:id', :provides => :json  do |id|

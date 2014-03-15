@@ -24,10 +24,10 @@ html
 
       ul.exif
         li.title EXIF
-        li.aperture 1/60
-        li.exposure 5
-        li.iso f5.0
-        li.focallength 5
+        li.aperture = "f" + photo.exif["F Number"].to_s
+        li.exposure = photo.exif["Exposure Time"]
+        li.iso = "ISO " + photo.exif["ISO"].to_s
+        li.focallength = photo.exif["Focal Length"]
         .clear
 
     script src="/jquery-1.8.3.min.js"
