@@ -20,4 +20,14 @@ class Time
     else "th"
     end
   end
+
+  def to_usual
+    strftime("%FT%T%:z")
+  end
+
+  def to_pretty
+    hour = descriptive_hour
+    day = strftime("%A %B %-d") + ordinal + strftime(" %Y")
+    "#{day}, #{hour}"
+  end
 end

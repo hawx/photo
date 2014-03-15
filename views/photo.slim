@@ -14,7 +14,7 @@ html
     section.photo
       a href=photo.url
         img src=photo.src_url
-        time datetime="2014-03-01T13:00:05Z" Saturday March 8th, in the afternoon
+        time datetime=photo.date.to_usual = photo.date.to_pretty
 
     section.meta
       textarea.description = photo.description

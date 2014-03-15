@@ -30,6 +30,10 @@ class Photo
     "/upload/photos/#{id}"
   end
 
+  def date
+    Time.strptime(exif["Date Time Original"], "%Y:%m:%d %H:%M:%S")
+  end
+
   def exif
     JSON.parse(exif_json)
   end

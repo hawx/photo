@@ -3,8 +3,10 @@ require 'fileutils'
 require 'json'
 require 'sinatra'
 require 'slim'
+require 'time'
 
 require_relative 'lib/markdown'
+require_relative 'lib/time'
 require_relative 'lib/data'
 
 helpers do
