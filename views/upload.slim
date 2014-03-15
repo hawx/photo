@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title Upload
+    link rel="stylesheet" href="/styles.css"
+
+  body
+    header
+      h1
+        a href="/" photos
+        span = "/"
+        a.here href="/upload" upload
+
+    form action="/upload" enctype="multipart/form-data" method="post"
+      div
+        input name="file" id="file" type="file"
+
+      input value="Upload" type="submit"
