@@ -10,4 +10,11 @@ class Tag
   def url
     "/tags/#{id}"
   end
+
+  def self.grouped
+    all
+      .group_by {|t| t.name[0] }
+      .sort_by {|k,v| k }
+      .select {|k,v| [k, v.sort_by(&:name)] }
+  end
 end

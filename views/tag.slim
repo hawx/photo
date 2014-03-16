@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    title Photo
+    link rel="stylesheet" href="/styles.css"
+
+  body
+    header
+      h1
+        a href="/" photos
+        span = "/"
+        a href="/tags" tags
+        span = "/"
+        span.here = tag.name
+
+    ul.photos
+      - tag.photos.sort_by(&:date).reverse.each do |photo|
+        li.photo
+          a href=photo.url
+            img src=photo.large.url
+            time datetime=photo.date.to_usual = photo.date.to_pretty

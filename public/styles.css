@@ -136,11 +136,11 @@ section.meta li:last-of-type:after {
     content: '';
 }
 
-.tags li a {
+.meta .tags li a {
     text-decoration: none;
 }
 
-.tags li .delete {
+.meta .tags li .delete {
     color: rgb(200, 60, 30);
     position: absolute;
     margin-left: 6px;
@@ -150,20 +150,20 @@ section.meta li:last-of-type:after {
     line-height: 10px;
 }
 
-.tags li:hover .delete {
+.meta .tags li:hover .delete {
     display: inline;
 }
 
-.tags li:hover .delete:hover {
+.meta .tags li:hover .delete:hover {
     background: red;
     color: white;
 }
 
-.tags li:hover:after {
+.meta .tags li:hover:after {
     opacity: 0;
 }
 
-.tags .add {
+.meta .tags .add {
     color: #666;
 }
 
@@ -176,6 +176,33 @@ section.meta ul .edit {
 }
 
 section.meta a {
+    color: black;
+}
+
+section.tags {
+    max-width: 500px;
+}
+
+section.tags h3 {
+    border-bottom: 1px solid #bbb;
+}
+
+section.tags ul {
+    list-style: none;
+    padding: 0;
+}
+
+section.tags li {
+    margin: .5em 1em;
+}
+
+section.tags .count {
+    float: right;
+    margin-right: 1em;
+    color: #666;
+}
+
+section.tags li:hover .count {
     color: black;
 }
 

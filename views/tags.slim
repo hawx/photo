@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    title Photo
+    link rel="stylesheet" href="/styles.css"
+
+  body
+    header
+      h1
+        a href="/" photos
+        span = "/"
+        span.here href="/tags" tags
+
+    section.tags
+      - grouped_tags.each do |k, tags|
+        h3 = k
+        ul
+          - tags.each do |tag|
+            li
+              a href=tag.url = tag.name
+              span.count = tag.photos.size

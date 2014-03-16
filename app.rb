@@ -34,6 +34,16 @@ get '/photos/:id' do |id|
   slim :photo, locals: {photo: Photo.get(id.to_i)}
 end
 
+get '/tags' do
+  accept! 'text/html'
+  slim :tags, locals: {grouped_tags: Tag.grouped}
+end
+
+get '/tags/:id' do |id|
+  accept! 'text/html'
+  slim :tag, locals: {tag: Tag.get(id.to_i)}
+end
+
 get '/photos/:id', :provides => :json  do |id|
   Photo.get(id.to_i).to_json
 end
@@ -65,7 +75,6 @@ end
 
 get '/image/:id' do |id|
   version = PhotoVersion.get(id.to_i)
-  p version
 
   content_type version.type
   send_file version.path
