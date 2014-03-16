@@ -9,12 +9,12 @@ html
       h1
         a href="/" photos
         span = "/"
-        span.here = photo.title
+        span.here = photo.title || photo.id
         input.here type="text" value=photo.title
 
     section.photo
       a href=photo.url
-        img src=photo.src_url
+        img src=photo.large.url
         time datetime=photo.date.to_usual = photo.date.to_pretty
 
     section.meta

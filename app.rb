@@ -1,6 +1,7 @@
 require 'exiftool'
 require 'fileutils'
 require 'json'
+require 'RMagick'
 require 'sinatra'
 require 'slim'
 require 'time'
@@ -62,9 +63,10 @@ delete '/photos/:id/tags/:tag_id', :provides => :json do |id, tag_id|
   Photo.get(id.to_i).to_json
 end
 
-get '/upload/photos/:id' do |id|
-  photo = Photo.get(id.to_i)
+get '/image/:id' do |id|
+  version = PhotoVersion.get(id.to_i)
+  p version
 
-  content_type photo.content_type
-  send_file photo.path
+  content_type version.type
+  send_file version.path
 end

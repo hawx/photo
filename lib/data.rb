@@ -1,5 +1,6 @@
 require 'dm-core'
 require 'dm-migrations'
+require 'dm-types'
 require 'dm-sqlite-adapter'
 
 require_relative 'data/photo'
