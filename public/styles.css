@@ -136,11 +136,11 @@ section.meta li:last-of-type:after {
     content: '';
 }
 
-section.meta li a {
+.tags li a {
     text-decoration: none;
 }
 
-section.meta li .delete {
+.tags li .delete {
     color: rgb(200, 60, 30);
     position: absolute;
     margin-left: 6px;
@@ -150,20 +150,20 @@ section.meta li .delete {
     line-height: 10px;
 }
 
-section.meta li:hover .delete {
+.tags li:hover .delete {
     display: inline;
 }
 
-section.meta li:hover .delete:hover {
+.tags li:hover .delete:hover {
     background: red;
     color: white;
 }
 
-section.meta li:hover:after {
+.tags li:hover:after {
     opacity: 0;
 }
 
-section.meta ul .add {
+.tags .add {
     color: #666;
 }
 
