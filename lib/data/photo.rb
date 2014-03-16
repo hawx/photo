@@ -4,6 +4,7 @@ class Photo
   property :id,           Serial
   property :path,         String
   property :content_type, String
+  property :title,        String
   property :description,  Text
   property :exif_json,    Text
 
@@ -41,6 +42,7 @@ class Photo
   def to_json
     {
       id: id,
+      title: title,
       description: Markdown.render(description || '...'),
       sizes: {
         original: {

@@ -87,6 +87,38 @@ function setUpDescription(description) {
     description.edit.hide();
 }
 
+function setUpTitle(title) {
+    title.display.on('click', function() {
+        title.display.hide();
+        title.edit.show();
+        title.edit.focus();
+    });
+
+    var setTitle = function() {
+        http.patch({
+            url: window.location.pathname,
+            data: {title: title.edit.val()},
+            success: function(obj) {
+                title.display.html(obj.title);
+            },
+            error: console.log
+        });
+
+        title.edit.hide();
+        title.display.show();
+    }
+
+    title.edit.on('blur', setTitle);
+    title.edit.on('keypress', function(e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            setTitle();
+        }
+    });
+
+    title.edit.hide();
+}
+
 var Tags = function(el) {
     var add, edit;
 
@@ -182,5 +214,10 @@ $(function() {
     setUpDescription({
         edit: $('textarea.description'),
         display: $('div.description')
+    });
+
+    setUpTitle({
+        edit: $('h1 input.here'),
+        display: $('h1 span.here')
     });
 });

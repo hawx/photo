@@ -9,7 +9,8 @@ html
       h1
         a href="/" photos
         span = "/"
-        a.here href=photo.url untitled
+        span.here = photo.title
+        input.here type="text" value=photo.title
 
     section.photo
       a href=photo.url
