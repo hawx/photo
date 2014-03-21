@@ -1,3 +1,12 @@
+NullTime = Time.now
+def NullTime.to_usual
+  ""
+end
+
+def NullTime.to_pretty
+  "Sometime in the past, presumably"
+end
+
 class Time
   # nicked from parallel-flickr, because it's nice
   # straup/parallel-flickr/www/include/lib_flickr_dates.php

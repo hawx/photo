@@ -2,6 +2,7 @@ require 'dm-core'
 require 'dm-migrations'
 require 'dm-types'
 require 'dm-sqlite-adapter'
+require 'dm-pager'
 
 require_relative 'data/photo'
 require_relative 'data/tag'

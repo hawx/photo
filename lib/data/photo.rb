@@ -88,7 +88,8 @@ class Photo
   end
 
   def date
-    Time.strptime(exif["Date Time Original"], "%Y:%m:%d %H:%M:%S")
+    d = exif["Date Time Original"]
+    d ? Time.strptime(d, "%Y:%m:%d %H:%M:%S") : NullTime
   end
 
   def exif

@@ -13,8 +13,10 @@ html
         a href="/upload" upload
 
     ul.photos
-      - photos.sort_by(&:date).reverse.each do |photo|
+      - photos.each do |photo|
         li.photo
           a href=photo.url
             img src=photo.large.url
             time datetime=photo.date.to_usual = photo.date.to_pretty
+
+    == photos.pager.to_html('/')

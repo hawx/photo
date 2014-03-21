@@ -23,13 +23,20 @@ html
 
       ul.tags
 
-      ul.exif
-        li.title EXIF
-        li.aperture = "f" + photo.exif["F Number"].to_s
-        li.exposure = photo.exif["Exposure Time"]
-        li.iso = "ISO " + photo.exif["ISO"].to_s
-        li.focallength = photo.exif["Focal Length"]
-        .clear
+      - if ["F Number", "Exposure Time", "ISO", "Focal Length"].any? {|k| photo.exif[k] }
+        ul.exif
+          li.title EXIF
+          - if photo.exif["F Number"]
+            li.aperture
+              em = "f "
+              span = photo.exif["F Number"].to_s
+          - if photo.exif["Exposure Time"]
+            li.exposure = photo.exif["Exposure Time"]
+          - if photo.exif["ISO"]
+            li.iso = "ISO " + photo.exif["ISO"].to_s
+          - if photo.exif["Focal Length"]
+            li.focallength = photo.exif["Focal Length"]
+          .clear
 
     script src="/jquery-1.8.3.min.js"
     script src="/jquery.autosize.min.js"

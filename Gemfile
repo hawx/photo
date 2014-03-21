@@ -9,6 +9,7 @@ gem 'dm-core', '~> 1.2'
 gem 'dm-migrations', '~> 1.2'
 gem 'dm-types', '~> 1.2'
 gem 'dm-sqlite-adapter', '~> 1.2'
+gem 'dm-pager', '~> 1.1'
 
 gem 'exiftool', '~> 0.6'
 gem 'exiftool_vendored'

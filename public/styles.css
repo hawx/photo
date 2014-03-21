@@ -209,3 +209,36 @@ section.tags li:hover .count {
 .clear {
     clear: both;
 }
+
+/* navigation */
+.pager {}
+
+.pager a {
+    padding: 2px 6px;
+    color: black;
+    text-decoration: none;
+}
+
+.pager .first, .pager .last {
+    display: none;
+}
+
+.pager .previous {
+    margin-right: 20px;
+}
+
+.pager .next {
+    margin-left: 20px;
+}
+
+.pager ul {
+    list-style: none;
+}
+
+.pager li {
+    display: inline;
+}
+
+.pager .active {
+    font-weight: bold;
+}

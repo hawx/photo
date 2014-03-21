@@ -10,6 +10,8 @@ require_relative 'lib/markdown'
 require_relative 'lib/time'
 require_relative 'lib/data'
 
+PAGE_SIZE = 10
+
 helpers do
   def accept!(type)
     pass unless request.accept.empty? || request.preferred_type.include?(type)
@@ -17,7 +19,9 @@ helpers do
 end
 
 get '/' do
-  slim :photos, locals: {photos: Photo.all}
+  page = params['page'] || 1
+
+  slim :photos, locals: {photos: Photo.page(page, per_page: PAGE_SIZE)}
 end
 
 get '/upload' do
@@ -41,7 +45,12 @@ end
 
 get '/tags/:id' do |id|
   accept! 'text/html'
-  slim :tag, locals: {tag: Tag.get(id.to_i)}
+
+  page = params['page'] || 1
+
+  tag = Tag.get(id.to_i)
+  photos = tag.photos.page(page, per_page: PAGE_SIZE)
+  slim :tag, locals: {tag: tag, photos: photos}
 end
 
 get '/photos/:id', :provides => :json  do |id|
@@ -53,7 +62,6 @@ patch '/photos/:id', :provides => :json do |id|
   photo.update(JSON.parse(request.body.read))
   photo.save!
 
-  content_type 'application/json'
   photo.to_json
 end
 
