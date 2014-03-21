@@ -38,6 +38,21 @@ get '/photos/:id' do |id|
   slim :photo, locals: {photo: Photo.get(id.to_i)}
 end
 
+get '/photos/:id/sizes/:size' do |id, size|
+  accept! 'text/html'
+
+  photo = Photo.get(id.to_i)
+  version = photo.version(size)
+  slim :photo_size, locals: {photo: photo, size: size}
+end
+
+get '/image/:id' do |id|
+  version = PhotoVersion.get(id.to_i)
+
+  content_type version.type
+  send_file version.path
+end
+
 get '/tags' do
   accept! 'text/html'
   slim :tags, locals: {grouped_tags: Tag.grouped}
@@ -79,11 +94,4 @@ delete '/photos/:id/tags/:tag_id', :provides => :json do |id, tag_id|
   tagging.destroy!
 
   Photo.get(id.to_i).to_json
-end
-
-get '/image/:id' do |id|
-  version = PhotoVersion.get(id.to_i)
-
-  content_type version.type
-  send_file version.path
 end

@@ -242,3 +242,29 @@ section.tags li:hover .count {
 .pager .active {
     font-weight: bold;
 }
+
+/* display */
+.size_selection {
+    border: 1px solid #eee;
+    padding: 1em 2em;
+    margin: 1em 0;
+}
+
+.size_selection ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.size_selection li {
+    display: inline;
+    margin-right: 2em;
+}
+
+.size_selection a {
+    color: black;
+}
+
+.display img {
+    width: auto;
+}

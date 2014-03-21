@@ -13,7 +13,7 @@ html
         input.here type="text" value=photo.title
 
     section.photo
-      a href=photo.url
+      a href=(photo.url + "/sizes/large")
         img src=photo.large.url
         time datetime=photo.date.to_usual = photo.date.to_pretty
 

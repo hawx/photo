@@ -72,19 +72,23 @@ class Photo
   end
 
   def original
-    photo_versions.first(:size => :original)
+    version :original
   end
 
   def large
-    photo_versions.first(:size => :large)
+    version :large
   end
 
   def small
-    photo_versions.first(:size => :small)
+    version :small
   end
 
   def thumb
-    photo_versions.first(:size => :thumb)
+    version :thumb
+  end
+
+  def version(size)
+    photo_versions.first(size: size)
   end
 
   def date

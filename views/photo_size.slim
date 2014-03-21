@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    title Photo
+    link rel="stylesheet" href="/styles.css"
+
+  body
+    header
+      h1
+        a href="/" photos
+        span = "/"
+        a href=photo.url = photo.title || photo.id
+        span = "/"
+        span.here = size
+
+    section.size_selection
+      ul
+        li
+          a href=(photo.url + "/sizes/thumb") thumb
+        li
+          a href=(photo.url + "/sizes/small") small
+        li
+          a href=(photo.url + "/sizes/large") large
+        li
+          a href=(photo.url + "/sizes/original") original
+
+    section.display
+      img src=photo.version(size).url
