@@ -67,6 +67,11 @@ class Photo
     PhotoVersion.create(size: size, path: file_path, type: 'image/jpeg')
   end
 
+  def title
+    t = super
+    (t.nil? || t.empty?) ? id : t
+  end
+
   def url
     "/photos/#{id}"
   end

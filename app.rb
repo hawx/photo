@@ -68,6 +68,14 @@ get '/tags/:id' do |id|
   slim :tag, locals: {tag: tag, photos: photos}
 end
 
+patch '/tags/:id', :provides => :json do |id|
+  tag = Tag.get(id.to_i)
+  tag.update(JSON.parse(request.body.read))
+  tag.save!
+
+  tag.to_json
+end
+
 get '/photos/:id', :provides => :json  do |id|
   Photo.get(id.to_i).to_json
 end

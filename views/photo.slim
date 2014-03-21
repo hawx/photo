@@ -9,7 +9,7 @@ html
       h1
         a href="/" photos
         span = "/"
-        span.here = photo.title || photo.id
+        span.here = photo.title
         input.here type="text" value=photo.title
 
     section.photo
@@ -41,4 +41,8 @@ html
     script src="/jquery-1.8.3.min.js"
     script src="/jquery.autosize.min.js"
     script src="/jquery.mustache.js"
+    script src="/http.js"
+    script src="/components/description.js"
+    script src="/components/title.js"
+    script src="/components/tags.js"
     script src="/photo.js"

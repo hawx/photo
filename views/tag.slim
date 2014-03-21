@@ -12,6 +12,7 @@ html
         a href="/tags" tags
         span = "/"
         span.here = tag.name
+        input.here type="text" value=tag.name
 
     ul.photos
       - photos.each do |photo|
@@ -21,3 +22,8 @@ html
             time datetime=photo.date.to_usual = photo.date.to_pretty
 
     == photos.pager.to_html(tag.url)
+
+    script src="/jquery-1.8.3.min.js"
+    script src="/http.js"
+    script src="/components/title.js"
+    script src="/tag.js"
