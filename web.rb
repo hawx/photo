@@ -1,12 +1,6 @@
-require 'exiftool'
-require 'fileutils'
-require 'json'
-require 'RMagick'
-require 'sass'
 require 'sinatra/base'
-require 'sinatra/json'
 require 'slim'
-require 'time'
+require 'sass'
 
 require_relative 'lib/markdown'
 require_relative 'lib/time'
@@ -37,13 +31,14 @@ class Web < Sinatra::Base
   get '/photos/:id/sizes/:size' do |id, size|
     photo = Photo.get(id.to_i)
     version = photo.version(size)
+
     slim :photo_size, locals: {photo: photo, size: size}
   end
 
   get '/image/:id' do |id|
-    version = PhotoVersion.get(id.to_i)
+    version = Size.get(id.to_i)
 
-    content_type version.type
+    content_type version.mime
     send_file version.path
   end
 

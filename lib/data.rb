@@ -4,6 +4,7 @@ require 'dm-types'
 require 'dm-sqlite-adapter'
 require 'dm-pager'
 
+require_relative 'data/size'
 require_relative 'data/photo'
 require_relative 'data/tag'
 require_relative 'data/tagging'

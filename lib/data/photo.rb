@@ -1,24 +1,7 @@
-class PhotoVersion
-  SIZES = {
-    original: '-',
-    large:    '1024x768',
-    small:    '320x240',
-    thumb:    '75x75'
-  }
-
-  include DataMapper::Resource
-
-  property :id,   Serial
-  property :size, Enum[:original, :large, :small, :thumb]
-  property :path, String
-  property :type, String
-
-  belongs_to :photo
-
-  def url
-    "/image/#{id}"
-  end
-end
+require 'exiftool'
+require 'fileutils'
+require 'RMagick'
+require 'time'
 
 class Photo
   include DataMapper::Resource
@@ -28,43 +11,32 @@ class Photo
   property :description,  Text
   property :exif_json,    Text
 
-  has n, :photo_versions
+  has 1, :original
+  has 1, :large
+  has 1, :small
+  has 1, :thumb
 
   has n, :taggings
   has n, :tags, through: :taggings
 
   def self.upload(temp_path, content_type)
-    format = case content_type
-             when 'image/jpeg' then 'JPG'
-             when 'image/png' then 'PNG'
-             else puts content_type
-             end
-
-    versions = []
-
     filename = SecureRandom.uuid
-    path = "public/uploads/#{filename}"
-    FileUtils.cp(temp_path, path)
-    versions << PhotoVersion.create(size: :original, path: path, type: content_type)
+    path     = "public/uploads/#{filename}"
+    img      = Magick::Image.read(temp_path).first
 
-    img = Magick::Image.read(path) {|i| i.format = format }.first
-    versions << save_version(path, img, :large)
-    versions << save_version(path, img, :small)
-    versions << save_version(path, img, :thumb)
+    original = Original.upload(temp_path, path, img, content_type)
 
-    exif = Exiftool.new(path)
+    large    = Large.upload(nil, path, img, content_type)
+    small    = Small.upload(nil, path, img, content_type)
+    thumb    = Thumb.upload(nil, path, img, content_type)
 
-    new(exif_json: exif.to_display_hash.to_json,
-        photo_versions: versions).save!
-  end
+    exif     = Exiftool.new(path)
 
-  def self.save_version(path, img, size)
-    file_path = "#{path}_#{size}.jpg"
-    img.change_geometry(PhotoVersion::SIZES[size]) {|cols, rows, img|
-      img.resize!(cols, rows)
-    }.write(file_path)
-
-    PhotoVersion.create(size: size, path: file_path, type: 'image/jpeg')
+    create exif_json: exif.to_display_hash.to_json,
+           original: original,
+           large: large,
+           small: small,
+           thumb: thumb
   end
 
   def title
@@ -76,24 +48,13 @@ class Photo
     "/photos/#{id}"
   end
 
-  def original
-    version :original
-  end
-
-  def large
-    version :large
-  end
-
-  def small
-    version :small
-  end
-
-  def thumb
-    version :thumb
-  end
-
   def version(size)
-    photo_versions.first(size: size)
+    case size.to_sym
+    when :original then original
+    when :large    then large
+    when :small    then small
+    when :thumb    then thumb
+    end
   end
 
   def date
@@ -113,19 +74,19 @@ class Photo
       sizes: {
         original: {
           url: original.url,
-          content_type: original.type
+          content_type: original.mime
         },
         large: {
           url: large.url,
-          content_type: large.type
+          content_type: large.mime
         },
         small: {
           url: small.url,
-          content_type: small.type
+          content_type: small.mime
         },
         thumb: {
           url: thumb.url,
-          content_type: thumb.type
+          content_type: thumb.mime
         }
       },
       tags: tags.map {|t| {name: t.name, url: t.url} },

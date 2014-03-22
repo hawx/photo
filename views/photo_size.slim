@@ -17,12 +17,24 @@ html
       ul
         li
           a href=(photo.url + "/sizes/thumb") thumb
+          span.w = photo.thumb.width
+          span.x x
+          span.h = photo.thumb.height
         li
           a href=(photo.url + "/sizes/small") small
+          span.w = photo.small.width
+          span.x x
+          span.h = photo.small.height
         li
           a href=(photo.url + "/sizes/large") large
+          span.w = photo.large.width
+          span.x x
+          span.h = photo.large.height
         li
           a href=(photo.url + "/sizes/original") original
+          span.w = photo.original.width
+          span.x x
+          span.h = photo.original.height
 
     section.display
       img src=photo.version(size).url
