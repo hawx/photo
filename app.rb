@@ -2,6 +2,7 @@ require 'exiftool'
 require 'fileutils'
 require 'json'
 require 'RMagick'
+require 'sass'
 require 'sinatra'
 require 'slim'
 require 'time'
@@ -102,4 +103,8 @@ delete '/photos/:id/tags/:tag_id', :provides => :json do |id, tag_id|
   tagging.destroy!
 
   Photo.get(id.to_i).to_json
+end
+
+get '/styles.css' do
+  sass 'styles/main'.to_sym
 end
