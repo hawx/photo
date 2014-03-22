@@ -1,8 +1,55 @@
-require 'json'
+require 'roar/decorator'
+require 'roar/representer/json'
 require 'sinatra/base'
 require 'sinatra/json'
 
 require_relative 'lib/data'
+
+class SizeRepresenter < Roar::Decorator
+  include Roar::Representer::JSON
+
+  property :id
+  property :url
+  property :height
+  property :width
+  property :mime, as: :content_type
+end
+
+class TagRepresenter < Roar::Decorator
+  include Roar::Representer::JSON
+  include Roar::Representer::Feature::Hypermedia
+
+  property :id, writeable: false
+  property :name
+  property :url, writeable: false
+
+  link :self do
+    "/api/tags/#{represented.id}"
+  end
+end
+
+class PhotoRepresenter < Roar::Decorator
+  include Roar::Representer::JSON
+  include Roar::Representer::Feature::Hypermedia
+
+  property :id, writeable: false
+  property :title
+  property :description
+  property :url, writeable: false
+  hash     :exif, writeable: false
+
+  nested :sizes do
+    property :large, decorator: SizeRepresenter, class: Size
+    property :small, decorator: SizeRepresenter, class: Size
+    property :thumb, decorator: SizeRepresenter, class: Size
+  end
+
+  collection :tags, decorator: TagRepresenter, class: Tag
+
+  link :self do
+    "/api/photos/#{represented.id}"
+  end
+end
 
 class Api < Sinatra::Base
   helpers Sinatra::JSON
@@ -15,37 +62,43 @@ class Api < Sinatra::Base
 
   patch '/tags/:id' do |id|
     tag = Tag.get(id.to_i)
-    tag.update(json_body)
+    TagRepresenter.new(tag).from_json(request.body.read)
     tag.save!
 
-    json tag
+    json TagRepresenter.new tag
   end
 
   get '/photos/:id' do |id|
-    json Photo.get(id.to_i)
+    json PhotoRepresenter.new Photo.get(id.to_i)
   end
 
   patch '/photos/:id' do |id|
     photo = Photo.get(id.to_i)
-    photo.update(json_body)
+    PhotoRepresenter.new(photo).from_json(request.body.read)
     photo.save!
 
-    json photo
+    json PhotoRepresenter.new photo
   end
 
   post '/photos/:id/tags' do |id|
     photo = Photo.get(id.to_i)
-    tag = Tag.first_or_create(json_body)
+
+    # ugh
+    temp_tag = Tag.new
+    TagRepresenter.new(temp_tag).from_json(request.body.read)
+    # double ugh
+    tag = Tag.first_or_create(name: temp_tag.name)
     photo.tags << tag
+
     photo.save!
 
-    json photo
+    json PhotoRepresenter.new photo
   end
 
   delete '/photos/:id/tags/:tag_id' do |id, tag_id|
     tagging = Tagging.first(photo_id: id.to_i, tag_id: tag_id.to_i)
     tagging.destroy!
 
-    json Photo.get(id.to_i)
+    json PhotoRepresenter.new Photo.get(id.to_i)
   end
 end

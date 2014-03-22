@@ -1,19 +1,17 @@
 source 'https://rubygems.org'
 
-gem 'json', '~> 1.8'
-gem 'redcarpet', '~> 3.0'
-gem 'sass', '~> 3.2'
-gem 'sinatra', '~> 1.4'
-gem 'sinatra-contrib', '~> 1.4'
-gem 'slim', '~> 2.0'
-
 gem 'dm-core', '~> 1.2'
 gem 'dm-migrations', '~> 1.2'
 gem 'dm-types', '~> 1.2'
 gem 'dm-sqlite-adapter', '~> 1.2'
 gem 'dm-pager', '~> 1.1'
-
 gem 'exiftool', '~> 0.6'
 gem 'exiftool_vendored'
-
+gem 'json', '~> 1.8'
+gem 'redcarpet', '~> 3.0'
 gem 'rmagick', '~> 2.13.2'
+gem 'roar', '~> 0.12.4'
+gem 'sass', '~> 3.2'
+gem 'sinatra', '~> 1.4'
+gem 'sinatra-contrib', '~> 1.4'
+gem 'slim', '~> 2.0'

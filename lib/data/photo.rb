@@ -65,32 +65,4 @@ class Photo
   def exif
     JSON.parse(exif_json)
   end
-
-  def to_json(opts={})
-    {
-      id: id,
-      title: title,
-      description: Markdown.render(description || '...'),
-      sizes: {
-        original: {
-          url: original.url,
-          content_type: original.mime
-        },
-        large: {
-          url: large.url,
-          content_type: large.mime
-        },
-        small: {
-          url: small.url,
-          content_type: small.mime
-        },
-        thumb: {
-          url: thumb.url,
-          content_type: thumb.mime
-        }
-      },
-      tags: tags.map {|t| {name: t.name, url: t.url} },
-      exif: exif
-    }.to_json
-  end
 end
