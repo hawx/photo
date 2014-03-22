@@ -21,6 +21,7 @@ header .menu {
 
 header .menu a {
     color: black;
+    margin-left: 2em;
 }
 
 h1 {
