@@ -4,6 +4,7 @@ require 'json'
 require 'RMagick'
 require 'sass'
 require 'sinatra'
+require 'sinatra/json'
 require 'slim'
 require 'time'
 
@@ -69,40 +70,40 @@ get '/tags/:id' do |id|
   slim :tag, locals: {tag: tag, photos: photos}
 end
 
-patch '/tags/:id', :provides => :json do |id|
+patch '/tags/:id' do |id|
   tag = Tag.get(id.to_i)
   tag.update(JSON.parse(request.body.read))
   tag.save!
 
-  tag.to_json
+  json tag
 end
 
-get '/photos/:id', :provides => :json  do |id|
-  Photo.get(id.to_i).to_json
+get '/photos/:id' do |id|
+  json Photo.get(id.to_i)
 end
 
-patch '/photos/:id', :provides => :json do |id|
+patch '/photos/:id' do |id|
   photo = Photo.get(id.to_i)
   photo.update(JSON.parse(request.body.read))
   photo.save!
 
-  photo.to_json
+  json photo
 end
 
-post '/photos/:id/tags', :provides => :json do |id|
+post '/photos/:id/tags' do |id|
   photo = Photo.get(id.to_i)
   tag = Tag.first_or_create(JSON.parse(request.body.read))
   photo.tags << tag
   photo.save!
 
-  photo.to_json
+  json photo
 end
 
-delete '/photos/:id/tags/:tag_id', :provides => :json do |id, tag_id|
+delete '/photos/:id/tags/:tag_id' do |id, tag_id|
   tagging = Tagging.first(photo_id: id.to_i, tag_id: tag_id.to_i)
   tagging.destroy!
 
-  Photo.get(id.to_i).to_json
+  json Photo.get(id.to_i)
 end
 
 get '/styles.css' do

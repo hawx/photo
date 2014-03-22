@@ -18,7 +18,7 @@ class Tag
       .select {|k,v| [k, v.sort_by(&:name)] }
   end
 
-  def to_json
+  def to_json(opts={})
     {
       id: id,
       name: name

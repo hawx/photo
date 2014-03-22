@@ -105,7 +105,7 @@ class Photo
     JSON.parse(exif_json)
   end
 
-  def to_json
+  def to_json(opts={})
     {
       id: id,
       title: title,
