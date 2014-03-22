@@ -7,9 +7,15 @@ require_relative 'lib/data'
 class Api < Sinatra::Base
   helpers Sinatra::JSON
 
+  helpers do
+    def json_body
+      JSON.parse(request.body.read)
+    end
+  end
+
   patch '/tags/:id' do |id|
     tag = Tag.get(id.to_i)
-    tag.update(JSON.parse(request.body.read))
+    tag.update(json_body)
     tag.save!
 
     json tag
@@ -21,7 +27,7 @@ class Api < Sinatra::Base
 
   patch '/photos/:id' do |id|
     photo = Photo.get(id.to_i)
-    photo.update(JSON.parse(request.body.read))
+    photo.update(json_body)
     photo.save!
 
     json photo
@@ -29,7 +35,7 @@ class Api < Sinatra::Base
 
   post '/photos/:id/tags' do |id|
     photo = Photo.get(id.to_i)
-    tag = Tag.first_or_create(JSON.parse(request.body.read))
+    tag = Tag.first_or_create(json_body)
     photo.tags << tag
     photo.save!
 
