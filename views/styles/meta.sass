@@ -1,3 +1,13 @@
+@media screen and (min-width: $page-width + $page-gutter + $side-width)
+  section.meta
+    width: $side-width
+    margin-left: $page-width + $page-gutter
+    position: absolute
+
+  section.photo
+    position: absolute
+    margin-top: 0
+
 section.meta
   textarea.description
     border: none
@@ -41,6 +51,7 @@ section.meta
     a
       text-decoration: none
 
+  .tags li
     .delete
       color: rgb(200, 60, 30)
       position: absolute
@@ -72,6 +83,7 @@ section.meta
     padding: 0
     outline: none
     border: none
+    width: 100px /* needs to be autosized somehow */
 
   a
     color: black
