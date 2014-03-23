@@ -10,6 +10,7 @@ class Photo
   property :title,        String
   property :description,  Text
   property :exif_json,    Text
+  property :uploaded_at,  Time, default: -> (*) { Time.now }
 
   has 1, :original
   has 1, :large
@@ -18,6 +19,9 @@ class Photo
 
   has n, :taggings
   has n, :tags, through: :taggings
+
+  has n, :machine_taggings
+  has n, :machine_tags, through: :machine_taggings
 
   def self.upload(temp_path, content_type)
     filename = SecureRandom.uuid
@@ -57,6 +61,21 @@ class Photo
     end
   end
 
+  def tag_with(name)
+    if MachineTag.is?(name)
+      machine_tag = MachineTag.first_or_create(name: name)
+      self.machine_tags << machine_tag
+    else
+      tag = Tag.first_or_create(name: name)
+      self.tags << tag
+    end
+  end
+
+  def tags
+    ts = super
+    ts.entries + machine_tags.entries
+  end
+
   def date
     d = exif["Date Time Original"]
     d ? Time.strptime(d, "%Y:%m:%d %H:%M:%S") : NullTime
@@ -64,5 +83,13 @@ class Photo
 
   def exif
     JSON.parse(exif_json)
+  end
+
+  def prev
+    Photo.last(:id.lt => self.id)
+  end
+
+  def next
+    Photo.first(:id.gt => self.id)
   end
 end

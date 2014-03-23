@@ -8,6 +8,29 @@
     position: absolute
     margin-top: 0
 
+  section.photo_pager
+    display: block !important
+
+section.photo_pager
+  display: none
+  margin-bottom: $page-gutter
+  margin-left: ($side-width / 2) - 80px
+
+  .prev, .next
+    font-size: 20px
+    text-decoration: none
+    display: inline-block
+    line-height: 40px
+    text-align: center
+    width: 40px
+    border: 1px solid $lgrey
+
+  .prev
+    margin-right: $page-gutter
+
+  .disabled
+    color: $lgrey
+
 section.meta
   textarea.description
     border: none

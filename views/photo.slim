@@ -18,6 +18,17 @@ html
         time datetime=photo.date.to_usual = photo.date.to_pretty
 
     section.meta
+      section.photo_pager
+        - if photo.prev
+          a.prev href=photo.prev.url &lt;
+        - else
+          a.prev.disabled &lt;
+
+        - if photo.next
+          a.next href=photo.next.url &gt;
+        - else
+          a.next.disabled &gt;
+
       textarea.description = photo.description
       div.description == Markdown.render(photo.description || '...')
 

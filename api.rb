@@ -32,8 +32,7 @@ class Api < Sinatra::Base
     return 400 unless name
 
     photo = Photo.get(id.to_i)
-    tag = Tag.first_or_create(name: name)
-    photo.tags << tag
+    photo.tag_with(name)
     photo.save!
 
     json PhotoRepresenter.new photo

@@ -4,7 +4,7 @@ class PhotoRepresenter < Roar::Decorator
 
   property :id, writeable: false
   property :title
-  property :description, getter: -> (*) { Markdown.render(description) }
+  property :description, getter: -> (*) { Markdown.render(description || "...") }
   property :url, writeable: false
   hash     :exif, writeable: false
 

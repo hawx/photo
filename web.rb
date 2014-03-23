@@ -43,13 +43,15 @@ class Web < Sinatra::Base
   end
 
   get '/tags' do
-    slim :tags, locals: {grouped_tags: Tag.grouped}
+    slim :tags, locals: {grouped_tags: Tags.grouped}
   end
 
-  get '/tags/:id' do |id|
+  get '/tags/:name' do |name|
     page = params['page'] || 1
 
-    tag = Tag.get(id.to_i)
+    tag = Tag.first(safe_name: name) || MachineTag.first(name: name)
+    return 404 unless tag
+
     photos = tag.photos.page(page, per_page: PAGE_SIZE)
     slim :tag, locals: {tag: tag, photos: photos}
   end
