@@ -54,12 +54,6 @@ end
 class Api < Sinatra::Base
   helpers Sinatra::JSON
 
-  helpers do
-    def json_body
-      JSON.parse(request.body.read)
-    end
-  end
-
   patch '/tags/:id' do |id|
     tag = Tag.get(id.to_i)
     TagRepresenter.new(tag).from_json(request.body.read)
