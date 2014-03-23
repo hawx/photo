@@ -81,15 +81,12 @@ class Api < Sinatra::Base
   end
 
   post '/photos/:id/tags' do |id|
+    name = JSON[request.body.read]['name']
+    return 400 unless name
+
     photo = Photo.get(id.to_i)
-
-    # ugh
-    temp_tag = Tag.new
-    TagRepresenter.new(temp_tag).from_json(request.body.read)
-    # double ugh
-    tag = Tag.first_or_create(name: temp_tag.name)
+    tag = Tag.first_or_create(name: name)
     photo.tags << tag
-
     photo.save!
 
     json PhotoRepresenter.new photo
